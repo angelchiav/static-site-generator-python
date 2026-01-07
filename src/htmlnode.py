@@ -9,7 +9,10 @@ class HTMLNode:
         raise NotImplementedError
 
     def props_to_html(self):
-        return f'href="{self.props["href"]}" target="{self.props["target"]}"'
+        if not self.props:
+            return ""
+        
+        return " ".join([f'{k}="{v}"' for k, v in self.props.items()])
 
     def __eq__(self, other):
         if not isinstance(other, HTMLNode):
@@ -34,11 +37,8 @@ class LeafNode(HTMLNode):
         super().__init__(tag=tag, value=value, children=None, props=props)
 
     def to_html(self):
-        if self.value is None:
-            raise ValueError("LeafNode must have a value")
-        
         if self.tag is None:
-            return self.value
+            return self.value or ""
         
         props_html = ""
         if self.props:
