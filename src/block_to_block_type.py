@@ -1,6 +1,6 @@
 from blocktype import BlockType
 
-def is_blockquote(block: str) -> bool:
+def is_backquote(block: str) -> bool:
     lines = block.split("\n")
     non_empty = [l for l in lines if l.strip() != ""]
     return len(non_empty) > 0 and all(l.lstrip().startswith(">") for l in non_empty)
@@ -21,12 +21,7 @@ def block_to_block_type(block: str) -> BlockType:
         if 1 <= count <= 6 and len(lines[0]) > count and lines[0][count] == " ":
             return BlockType.HEADING
         
-    is_quote = True
-    for line in lines:
-        if not line.startswith("> "):
-            is_quote = False
-            break
-    if is_quote:
+    if is_backquote(block):
         return BlockType.QUOTE
     
     is_unordered = True

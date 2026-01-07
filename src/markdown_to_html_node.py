@@ -49,10 +49,9 @@ def markdown_to_html_node(markdown: str):
                         if s.startswith(" "):
                             s = s[1:]
                     cleaned.append(s)
-                quote_text = "\n".join(cleaned).strip("\n")
+                quote_text = "\n".join(cleaned).strip()
 
-                return ParentNode("blockquote", [LeafNode("p", quote_text)])
-
+                html_children.append(ParentNode("blockquote", [LeafNode(None, quote_text)]))
 
             case BlockType.CODE:
                 # block looks like: ```\n...\n```
@@ -61,10 +60,18 @@ def markdown_to_html_node(markdown: str):
 
             case BlockType.QUOTE:
                 lines = block.split("\n")
-                clean_lines = [line[2:] for line in lines]  # remove "> "
-                text = " ".join(clean_lines)
-                children = text_to_children(text)
-                html_children.append(ParentNode("blockquote", children))
+                cleaned = []
+                for line in lines:
+                    s = line.lstrip()
+                    if s.startswith(">"):
+                        s = s[1:]
+                        if s.startswith(" "):
+                            s = s[1:]
+                    cleaned.append(s)
+                quote_text = "\n".join(cleaned).strip()
+
+                # Render blockquote content directly (no extra <p> wrapper)
+                html_children.append(ParentNode("blockquote", [LeafNode(None, quote_text)]))
 
             case BlockType.UNORDERED_LIST:
                 items = block.split("\n")
