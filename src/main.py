@@ -18,7 +18,7 @@ def main():
 
     output_dir = "docs"
     copy_static("static", output_dir)
-    generate_page_recursive("content", "template.html", "public")
+    generate_page_recursive("content", "template.html", output_dir, basepath)
 
 if __name__ == "__main__":
     main()
