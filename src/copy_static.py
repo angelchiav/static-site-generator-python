@@ -1,7 +1,7 @@
 import os
 import shutil
 
-def copy_directory(src, dst):
+def copy_static(src, dst):
     if os.path.exists(dst):
         shutil.rmtree(dst)
 
@@ -17,6 +17,6 @@ def copy_directory(src, dst):
 
         elif os.path.isdir(src_path):
             print(f"Entering directory: {src_path}")
-            copy_directory(src_path, dst_path)
+            copy_static(src_path, dst_path)
 
         
