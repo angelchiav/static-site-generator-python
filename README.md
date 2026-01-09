@@ -31,7 +31,7 @@ That's it. No package installation needed since it only uses Python's standard l
 Run the generator with the default base path:
 
 ```bash
-python3 src/main.py
+./main.sh
 ```
 
 This will:
